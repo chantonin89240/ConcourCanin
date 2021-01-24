@@ -123,11 +123,13 @@ namespace concourCanin
         private void buttonRecherche_Click(object sender, EventArgs e)
         {
             string concour = comboBoxConcour.Text;
+            // si comboNonChoisi est rechercher 
             if (concour == comboNonCHoisi)
             {
                 toutInvisible();
                 MessageBox.Show("Sélectionner un concour dans la liste !");
             }
+            // sinon affiche dans le dgv les éléments lier au concours sélectionner 
             else
             {
                 var req = from v in monModele.PARTICIPEs where v.codeconcours == concour select v;
@@ -277,6 +279,7 @@ namespace concourCanin
                     buttonModifier.Visible = true;
                     buttonValiderModification.Visible = true;
 
+                    // récupére les données du propriétaire grâce a sont code et le sélectionne dans le combobox
                     string propri = dgvNotation.CurrentRow.Cells[0].Value.ToString();
                     var reqPro = from l in monModele.PROPRIETAIREs where l.codeproprietaire == propri select l;
 
@@ -286,6 +289,7 @@ namespace concourCanin
                         comboBoxProprietaire.SelectedItem = lePropri;
                     }
 
+                    // récupére les données du chien grâce a sont code et le sélectionne dans le combobox
                     string chien = dgvNotation.CurrentRow.Cells[1].Value.ToString();
                     var reqChien = from l in monModele.CHIENs where l.codechien == chien select l;
 
@@ -295,6 +299,7 @@ namespace concourCanin
                         comboBoxChien.SelectedItem = leChien;
                     }
 
+                    // récupére le code du concour et le sélectionne dans le combobox
                     string concour = dgvNotation.CurrentRow.Cells[2].Value.ToString();
                     comboBoxChien.SelectedItem = concour.Trim();
 
@@ -377,6 +382,7 @@ namespace concourCanin
 
             string propri = comboBoxProprietaire.Text;
 
+            // si comboNonChoisi est sélectionner alors met tout les chien dans le combobox chien
             if (propri == comboNonCHoisi)
             {
                 var chien = from l in monModele.CHIENs select l;
@@ -387,6 +393,7 @@ namespace concourCanin
                     comboBoxChien.Items.Add(lesChien);
                 }
             }
+            // sinon met les chiens du propriétaire sélectionner
             else
             {
                 string[] lePropri = propri.Split(':');
@@ -410,6 +417,7 @@ namespace concourCanin
 
             string chien = comboBoxChien.Text;
 
+            // si comboNonChoisi est sélectionner alors met tout les propriétaire dans le combobox propriétaire
             if (chien == comboNonCHoisi)
             {
                 var leChien = from l in monModele.PROPRIETAIREs select l;
@@ -420,6 +428,7 @@ namespace concourCanin
                     comboBoxProprietaire.Items.Add(lesPropri);
                 }
             }
+            // sinon met le propriétaire du chien sélectionner
             else
             {
                 string[] leChien = chien.Split(':');

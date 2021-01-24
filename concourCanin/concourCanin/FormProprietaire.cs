@@ -205,7 +205,6 @@ namespace concourCanin
                         }
                     }
 
-
                     monModele.PROPRIETAIREs.Remove(proprietaire);
                     monModele.SaveChanges();
                     chargerDgv();
@@ -239,6 +238,7 @@ namespace concourCanin
 
                     textBoxCode.Enabled = false;
 
+                    // récupére les données du propriétaire sélectionner est remplis les textbox 
                     string leCode = dgvProprietaire.CurrentRow.Cells[0].Value.ToString();
                     textBoxCode.Text = leCode.Trim();
 

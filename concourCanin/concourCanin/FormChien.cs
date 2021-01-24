@@ -15,7 +15,7 @@ namespace concourCanin
         // variable global
         private CONCOURSCANINEntities monModele;
         string comboNonCHoisi = "--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
-        int nbType = 0;
+        int nbType = 0; // variable pour savoir quelle table (chien, race, batard) afficher dans le dgv
 
         // initialisation du formulaire et de l'entité concourCanin
         public FormChien()
@@ -123,7 +123,7 @@ namespace concourCanin
             buttonValiderAjout.Visible = false;
             buttonValiderModif.Visible = false;
 
-            // Enabled pour la posibilité d'écrire dans l'élément
+            // Enabled pour pouvoir écrire dans l'élément
             textBoxCode.Enabled = true;
             comboBoxProprietaire.Enabled = true;
             comboBoxType.Enabled = true;
@@ -157,6 +157,10 @@ namespace concourCanin
 
             labelRobe.Visible = false;
             textBoxRobe.Visible = false;
+
+            textBoxRace.Clear();
+            textBoxCaracteristique.Clear();
+            textBoxRobe.Clear();
         }
 
         // fonction qui test si le code chien n'existe pas
@@ -275,6 +279,7 @@ namespace concourCanin
             // ajoute le chien en fonction de sont type
             else
             {
+                //  ajoute un chien de type race
                 if (nbType == 1)
                 {
                     var unChien = new DERACE()
@@ -290,6 +295,7 @@ namespace concourCanin
                     monModele.CHIENs.Add(unChien);
                     monModele.SaveChanges();
                 }
+                // ajoute un chien de type batard
                 else if(nbType == 2)
                 {
                     var unChien = new BATARD()
@@ -365,6 +371,7 @@ namespace concourCanin
                     groupBoxChampChien.Visible = true;
                     groupBoxCaracteristique.Visible = true;
 
+                    // on ne peut pas modifier le code du chien et du proprietaire ainsi que le type
                     textBoxCode.Enabled = false;
                     comboBoxProprietaire.Enabled = false;
                     comboBoxType.Enabled = false;
@@ -373,6 +380,7 @@ namespace concourCanin
 
                     buttonValiderModif.Visible = true;
 
+                    // récupération des données pour remplis les éléments
                     string leCodeChien = dgvChien.CurrentRow.Cells[0].Value.ToString();
                     textBoxCode.Text = leCodeChien.Trim();
 
@@ -395,6 +403,7 @@ namespace concourCanin
 
                     int nbChien = recupChienRace.Count();
 
+                    // vérifie si le chien sélectionner et de race ou batard
                     if (nbChien > 0)
                     {
                         comboBoxType.SelectedItem = "Race";
@@ -469,7 +478,7 @@ namespace concourCanin
                 DateTime ddn = DateTime.Parse(dateTimePicker1.Text);
                 string nom = textBoxNom.Text;
 
-
+                // modifie le chien si il est de race
                 if (nbType == 1)
                 {
                     var chien = monModele.VUERACEs.Find(leCodeChien, codePropri);
@@ -481,6 +490,7 @@ namespace concourCanin
 
                     monModele.SaveChanges();
                 }
+                // sinon modifie le chien si il est batard
                 else if (nbType == 2)
                 {
                     var chien = monModele.VUEBATARDs.Find(leCodeChien, codePropri);
@@ -509,6 +519,7 @@ namespace concourCanin
             cacherCaracteristique();
             string type = comboBoxType.Text;
             
+            // si le type sélectionner et race alors on affiche les textbox lier 
             if (type == "Race")
             {
                 labelRace.Visible = true;
@@ -519,6 +530,7 @@ namespace concourCanin
 
                 nbType = 1;
             }
+            // si le type sélectionner et batard alors on affiche le textbox lier 
             else if (type == "Batard")
             {
                 labelCaracteristique.Visible = true;
@@ -526,6 +538,7 @@ namespace concourCanin
 
                 nbType = 2;
             }
+            // sinon si le comboNonChoisi est sélectionner alors on cache les textbox
             else
             {
                 cacherCaracteristique();

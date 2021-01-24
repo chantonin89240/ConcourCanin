@@ -228,6 +228,7 @@ namespace concourCanin
 
                     buttonValiderModif.Visible = true;
 
+                    // récupére les données dans le dgv pour remplir les éléments
                     string leCode = dgvConcours.CurrentRow.Cells[0].Value.ToString();
                     textBoxCode.Text = leCode.Trim();
 
