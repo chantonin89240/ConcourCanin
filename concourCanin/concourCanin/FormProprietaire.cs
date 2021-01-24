@@ -13,8 +13,10 @@ namespace concourCanin
 {
     public partial class FormProprietaire : Form
     {
+        // variable global
         private CONCOURSCANINEntities monModele;
 
+        // initialise le formulaire et l'entité concourCanin
         public FormProprietaire()
         {
             InitializeComponent();
@@ -125,23 +127,28 @@ namespace concourCanin
             int nbCode = leCode.Count();
             bool leCodeValide = testCode(leCode);
 
+            // vérifie que les textbox ne soit pas vide
             if (textBoxCode.Text == "" || textBoxNom.Text == "" || textBoxPrenom.Text == ""
                 || textBoxAdresse.Text == "" || textBoxVille.Text == "" || textBoxCP.Text == "")
             {
                 MessageBox.Show("une ou plusieurs case ne sont pas remplis ! ");
             }
+            // vérifie que le code postal soit valide
             else if (leCPvalide == false)
             {
                 MessageBox.Show("le code postal n'est pas valide (deux chiffre) ! ");
             }
+            // vérifie que le code du proprietaire ne dépace pas 6 caractère et ne soit pas en dessous pour éviter les espace
             else if (nbCode != 6)
             {
                 MessageBox.Show("le code n'est pas valide il doit comporter 6 caractère ou chiffre ! ");
             }
+            // vérife que le code n'existe pas 
             else if (leCodeValide == true)
             {
                 MessageBox.Show("le code du propriétaire existe déjà veuiller le modifier ! ");
             }
+            // ajout le propriétaire
             else
             {
                 var unProprietaire = new PROPRIETAIRE()
@@ -170,12 +177,15 @@ namespace concourCanin
             string leNom = dgvProprietaire.CurrentRow.Cells[3].Value.ToString();
             string lePrenom = dgvProprietaire.CurrentRow.Cells[4].Value.ToString();
 
+            // condition si le dgv a plus de 1 élément (la première ligne vide du dgv étant compter)
             if (dgvProprietaire.RowCount != 1)
             {
+                // condition qui affiche un messageBox pour valider la suppression du propriétaire
                 if (MessageBox.Show("êtes vous sur de vouloir supprimer le propriétaire " + leNom.Trim() + " " + lePrenom.Trim() + "\nnuméro : " + leCode.Trim() + " ?", "advertissement ", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
+                    // récupére le propriétaire a supprimer
                     var proprietaire = monModele.PROPRIETAIREs.Find(leCode);
-
+                    // récupére les notation lier au propriétaire et les supprime
                     var participe = from l in monModele.PARTICIPEs where l.codeproprietaire == leCode select l;
                     if (participe != null)
                     {
@@ -185,6 +195,7 @@ namespace concourCanin
                         }
                     }
 
+                    // récupére les chiens lier au propriétaire et les supprime
                     var chien = from l in monModele.CHIENs where l.codeproprietaire == leCode select l;
                     if (chien != null)
                     {
@@ -209,8 +220,10 @@ namespace concourCanin
         // fonction sur le button modifier qui affiche les groupbox et le button validerModif puis qui remplis les textbox avec les données du propriétaire sélectionner dans le dgv
         private void buttonModifier_Click(object sender, EventArgs e)
         {
+            // condition si le dgv a plus de 1 élément (la première ligne vide du dgv étant compter)
             if (dgvProprietaire.RowCount != 1)
             {
+                // condition qui demande a l'utilisateur de sélectionner le propriétaire dans le dgv
                 if (dgvProprietaire.CurrentRow.Selected)
                 {
                     toutInvisible();
@@ -262,15 +275,18 @@ namespace concourCanin
             string leCP = textBoxCP.Text;
             bool leCPvalide = testCP(leCP);
 
+            // vérifie que les textbox ne soit pas vide
             if (textBoxNom.Text == "" || textBoxPrenom.Text == "" || textBoxAdresse.Text == ""
                 || textBoxVille.Text == "" || textBoxCP.Text == "")
             {
                 MessageBox.Show("une ou plusieurs case ne sont pas remplis ! ");
             }
+            // vérifie que le code postal soit valide
             else if (leCPvalide == false)
             {
                 MessageBox.Show("le code postal n'est pas valide (deux chiffre) ! ");
             }
+            // modifie le propriétaire
             else
             {
                 string leProprietaire = textBoxCode.Text;

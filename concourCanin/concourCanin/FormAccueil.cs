@@ -17,6 +17,8 @@ namespace concourCanin
             InitializeComponent();
         }
 
+
+        // fonction sur le clique du button quitter qui ouvre un messagebox qui demande validation est si accepter alors ferme l'appplication
         private void buttonQuitter_Click(object sender, EventArgs e)
         {
             DialogResult reponse = MessageBox.Show("Voulez-vous vraiment quitter l'application ?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);

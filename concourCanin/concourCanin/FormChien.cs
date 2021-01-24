@@ -12,10 +12,12 @@ namespace concourCanin
 {
     public partial class FormChien : Form
     {
+        // variable global
         private CONCOURSCANINEntities monModele;
         string comboNonCHoisi = "--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
         int nbType = 0;
 
+        // initialisation du formulaire et de l'entité concourCanin
         public FormChien()
         {
             InitializeComponent();
@@ -25,6 +27,7 @@ namespace concourCanin
         // fonction qui charge le dgv en fonction du type de chien demander
         private void chargerDgv(int nb)
         {
+            // adapte la taille de toute les colonne en fill
             DataGridViewAutoSizeColumnMode size = DataGridViewAutoSizeColumnMode.Fill;
 
             // affiche tout les chiens dans le dgv
@@ -88,6 +91,7 @@ namespace concourCanin
         // fonction qui clear et ajoute la variable comboNonChoisi au combobox 
         private void comboClear()
         {
+            // récupére tout les proprietaire
             var pro = from l in monModele.PROPRIETAIREs select l;
 
             // combobox proprietaire
@@ -112,16 +116,19 @@ namespace concourCanin
         // fonction qui cache les groupbox et les button valider
         private void cacherTout()
         {
+            // Visible pour cacher l'élément
             groupBoxChampChien.Visible = false;
             groupBoxCaracteristique.Visible = false;
 
             buttonValiderAjout.Visible = false;
             buttonValiderModif.Visible = false;
 
+            // Enabled pour la posibilité d'écrire dans l'élément
             textBoxCode.Enabled = true;
             comboBoxProprietaire.Enabled = true;
             comboBoxType.Enabled = true;
 
+            // Clear pour effacer le contenu de l'élément
             textBoxCode.Clear();
             textBoxNom.Clear(); 
 
@@ -129,9 +136,11 @@ namespace concourCanin
             textBoxCaracteristique.Clear();
             textBoxRobe.Clear();
 
+            // SelectedItem pour définir l'élément sélectionner par le combobox
             comboBoxProprietaire.SelectedItem = comboNonCHoisi;
             comboBoxType.SelectedItem = comboNonCHoisi;
 
+            // Now pour séléectionner la date du jour
             DateTime ladate = DateTime.Now;
             dateTimePicker1.Value = ladate;
 
@@ -204,6 +213,7 @@ namespace concourCanin
         {
             cacherTout();
 
+            // condition si le dgv a plus de 1 élément (la première ligne vide du dgv étant compter)
             if (dgvChien.RowCount != 1)
             {
               
@@ -231,31 +241,38 @@ namespace concourCanin
             string lePropri = leNomPro[1].Trim();
 
             bool testChien = testValiditerCode(leCodeChien);
-            
+
+            // vérifie que les textbox ne soit pas vide
             if (textBoxCode.Text == "" || textBoxNom.Text == "")
             {
                 MessageBox.Show("certains champs ne sont pas remplis ! ");
             }
+            // vérifie que le combobox proprietaire ne soit pas le comboNonChoisi
             else if (comboBoxProprietaire.Text == comboNonCHoisi)
             {
                 MessageBox.Show("vous n'avait pas choisi de propriétaire ! ");
             }
+            // vérifie que le combobox type ne soit pas le comboNonChoisi
             else if (comboBoxType.Text == comboNonCHoisi)
             {
                 MessageBox.Show("vous n'avait pas choisi de type pour le chien ! ");
             }
+            // vérifie que si le combobox type soit sur race que les textbox ne soit pas vide
             else if (comboBoxType.Text == "Race" && textBoxRace.Text == "" || comboBoxType.Text == "Race" && textBoxRobe.Text == "")
             {
                 MessageBox.Show("un champ du type n'est pas remplis ! ");
             }
+            // vérifie que si le combobox type soit sur batard que le textbox ne soit pas vide
             else if (comboBoxType.Text == "Batard" && textBoxCaracteristique.Text == "")
             {
                 MessageBox.Show("le champ du type n'est pas remplis ! ");
             }
+            // vérifie si le code du chien existe déjà 
             else if (testChien == false)
             {
                 MessageBox.Show("le code du chien existe déjà ! ");
             }
+            // ajoute le chien en fonction de sont type
             else
             {
                 if (nbType == 1)
@@ -301,14 +318,18 @@ namespace concourCanin
         // fonction qui demande a l'utilisateur avec un messageBox puis qui supprime le chiens si accepter
         private void buttonSupprimer_Click(object sender, EventArgs e)
         {
+            // condition si le dgv a plus de 1 élément (la première ligne vide du dgv étant compter)
             if (dgvChien.RowCount != 1)
             {
                 string leCodeChien = dgvChien.CurrentRow.Cells[0].Value.ToString();
                 string leCodeProprietaire = dgvChien.CurrentRow.Cells[1].Value.ToString();
 
+                // messagebox pour valider par l'utilisateur la suppression du chien
                 if (MessageBox.Show("êtes vous sur de vouloir supprimer le chien numéro : " + leCodeChien.Trim() + " ?", "advertissement ", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
+                    // récupére le chien pour le supprimer
                     var chien = monModele.CHIENs.Find(leCodeChien, leCodeProprietaire);
+                    // récupére les note lier au chien et les supprime
                     var participe = from l in monModele.PARTICIPEs where l.codechien == leCodeChien select l;
                     if (participe != null)
                     {
@@ -333,10 +354,10 @@ namespace concourCanin
         // fonction qui remplis les champs avec les caractéristique du champs depuis le dgv pour la modification
         private void buttonModifier_Click(object sender, EventArgs e)
         {
-            
-
+            // condition si le dgv a plus de 1 élément (la première ligne vide du dgv étant compter)
             if (dgvChien.RowCount != 1)
             {
+                // condition qui demande a l'utilisateur de sélectionner le chien dans le dgv
                 if (dgvChien.CurrentRow.Selected)
                 {
                     cacherTout();
@@ -421,22 +442,27 @@ namespace concourCanin
             string pro = comboBoxProprietaire.Text;
             string[] leNomPro = pro.Split(':');
 
+            // vérifie si le textbox n'est pas vide
             if (textBoxNom.Text == "")
             {
                 MessageBox.Show("le champs du nom n'est pas remplis ! ");
             }
+            // vérifie si le combobox type n'est pas sur comboNonChoisi
             else if (comboBoxType.Text == comboNonCHoisi)
             {
                 MessageBox.Show("vous n'avait pas choisi de type pour le chien ! ");
             }
+            // vérifie si le combobox type est sur race que les textbox ne soit pas vide
             else if (comboBoxType.Text == "Race" && textBoxRace.Text == "" || comboBoxType.Text == "Race" && textBoxRobe.Text == "")
             {
                 MessageBox.Show("un champ du type n'est pas remplis ! ");
             }
+            // vérifie si le combobox type est sur batard que les textbox ne soit pas vide
             else if (comboBoxType.Text == "Batard" && textBoxCaracteristique.Text == "")
             {
                 MessageBox.Show("le champ du type n'est pas remplis ! ");
             }
+            // modifie le chien 
             else
             {
                 string codePropri = leNomPro[1];

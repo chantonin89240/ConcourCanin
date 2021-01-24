@@ -13,9 +13,11 @@ namespace concourCanin
 {
     public partial class FormNotation : Form
     {
+        // variable global
         private CONCOURSCANINEntities monModele;
         string comboNonCHoisi = "--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
 
+        // initialise le formulaire et l'entité concourCanin
         public FormNotation()
         {
             InitializeComponent();
@@ -174,26 +176,32 @@ namespace concourCanin
 
             var notationChien = monModele.PARTICIPEs.Find(lePropri, leCodeChien, leConcour);
 
+            // vérifie si le combobox proprietaire est sur le comboNonChoisi
             if (lePro == comboNonCHoisi)
             {
                 MessageBox.Show("il faut choisir un propriétaire ! ");
             }
+            // vérifie si le combobox chien est sur le comboNonChoisi
             else if (leChien == comboNonCHoisi)
             {
                 MessageBox.Show("il faut choisir un chien ! ");
             }
+            // vérifie si le combobox concour est sur le comboNonChoisi
             else if (leConcour == comboNonCHoisi)
             {
                 MessageBox.Show("il faut choisir un concour ! ");
             }
+            // vérifie si le textbox note est vide
             else if (note == "")
             {
                 MessageBox.Show("il faut rentrer une note ! ");
             }
+            // vérifie que la notation n'existe pas
             else if (notationChien != null)
             {
                 MessageBox.Show("cette notation existe déjà ! ");
             }
+            // ajoute la notation
             else
             {
                 var uneNotation = new PARTICIPE()
@@ -217,9 +225,10 @@ namespace concourCanin
         private void buttonSupprimer_Click(object sender, EventArgs e)
         {
             groupInvisible();
-
+            // condition si le dgv a plus de 1 élément (la première ligne vide du dgv étant compter)
             if (dgvNotation.RowCount != 1)
             {
+                // condition qui affiche un messageBox pour valider la suppression
                 if (MessageBox.Show("êtes vous sur de vouloir supprimer cette notation ?", "advertissement ", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
 
@@ -227,6 +236,7 @@ namespace concourCanin
                     string leChien = dgvNotation.CurrentRow.Cells[1].Value.ToString();
                     string leConcours = dgvNotation.CurrentRow.Cells[2].Value.ToString();
 
+                    // récupére la notation a supprimer
                     var participe = monModele.PARTICIPEs.Find(leProprietaire, leChien, leConcours);
 
                     monModele.PARTICIPEs.Remove(participe);
@@ -246,8 +256,10 @@ namespace concourCanin
         // clique du button modifier qui affiche les groupbox et le button valider modification et remplis les combo et textbox avec les données du dgv
         private void buttonModifier_Click(object sender, EventArgs e)
         {
+            // condition si le dgv a plus de 1 élément (la première ligne vide du dgv étant compter)
             if (dgvNotation.RowCount != 1)
             {
+                // condition qui demande a l'utilisateur de sélectionner la notation dans le dgv
                 if (dgvNotation.CurrentRow.Selected)
                 {
                     toutInvisible();
@@ -307,14 +319,17 @@ namespace concourCanin
             string laNote = textBoxNote.Text;
             bool laNoteValide = testValideNote(laNote);
 
+            // vérifie que les combobox ne soit pas sur comboNonChoisi 
             if (comboBoxProprietaire.Text == comboNonCHoisi || comboBoxChien.Text == comboNonCHoisi || laNote == "")
             {
                 MessageBox.Show("une ou plusieurs case ne sont pas remplis ! ");
             }
+            // vérifie si la note ne comprend que des chiffres
             else if (laNoteValide == false)
             {
                 MessageBox.Show("la note n'est pas valide il ne faut que des chiffre ! ");
             }
+            // modifie la notation 
             else
             {
                 string propri = comboBoxProprietaire.Text;

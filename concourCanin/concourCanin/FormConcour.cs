@@ -13,7 +13,10 @@ namespace concourCanin
 {
     public partial class FormConcour : Form
     {
+        // variable global 
         private CONCOURSCANINEntities monModele;
+
+        // initialise le formualire et l'entité concourCanin
         public FormConcour()
         {
             InitializeComponent();
@@ -23,6 +26,7 @@ namespace concourCanin
         // fonction qui met toute les groupbox et les button en invisible et qui clear les textbox et mais le calendrier a la date du jour
         private void toutInvisible()
         {
+            // rend invisible
             groupBoxCodeConcour.Visible = false;
             groupBoxCoucourVille.Visible = false;
             groupBoxConcourCP.Visible = false;
@@ -33,7 +37,10 @@ namespace concourCanin
             buttonValiderAjout.Visible = false;
             buttonValiderModif.Visible = false;
 
+            // ne peut pas interagire avec le composant
             textBoxCode.Enabled = true;
+
+            // efface le contenu de l'élément
             textBoxVille.Clear();
             textBoxCP.Clear();
             textBoxSalle.Clear();
@@ -124,23 +131,28 @@ namespace concourCanin
             int nbCode = leCode.Count();
             bool leCodeValide = testCode(leCode);
 
+            // vérifie si les textbox sont vide
             if (textBoxVille.Text == "" || textBoxCP.Text == "" || textBoxSalle.Text == ""
                || textBoxAdresse.Text == "")
             {
                 MessageBox.Show("une ou plusieurs case ne sont pas remplis ! ");
             }
+            // vérifie si le code postal est valide
             else if (leCPvalide == false)
             {
                 MessageBox.Show("le code postal n'est pas valide (deux chiffre) ! ");
             }
+            // vérifie si le code fait 6 caractère pour éviter les espace ou qu'il ne dépace 
             else if (nbCode != 6)
             {
                 MessageBox.Show("le code n'est pas valide il doit comporter 6 caractère ou chiffre ! ");
             }
+            // vérifie si le code est valide
             else if (leCodeValide == true)
             {
                 MessageBox.Show("le code du concour existe déjà veuiller le modifier ! ");
             }
+            // ajout le concour
             else
             {
                 var unConcour = new CONCOUR()
@@ -167,11 +179,15 @@ namespace concourCanin
             toutInvisible();
             string leConcours = dgvConcours.CurrentRow.Cells[0].Value.ToString();
 
+            // condition si le dgv a plus de 1 élément (la première ligne vide du dgv étant compter)
             if (dgvConcours.RowCount != 1)
             {
+                // messageBox pour valider la suppression 
                 if (MessageBox.Show("êtes vous sur de vouloir supprimer le concours numéro : " + leConcours.Trim() + " ?", "advertissement ", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
+                    // récupére le concour
                     var concour = monModele.CONCOURS.Find(leConcours);
+                    // récupére les notation lier au concour pour les supprimer
                     var participe = from l in monModele.PARTICIPEs where l.codeconcours == leConcours select l;
                     if (participe != null)
                     {
@@ -194,8 +210,10 @@ namespace concourCanin
         // clique sur le button modifier qui ajoute le concour sélectionner dans les textbox et afficher les groupebox et le button valider modification
         private void buttonModifier_Click(object sender, EventArgs e)
         {
+            // condition si le dgv a plus de 1 élément (la première ligne vide du dgv étant compter)
             if (dgvConcours.RowCount != 1)
             {
+                // condition qui demande a l'utilisateur de sélectionner le concour dans le dgv 
                 if (dgvConcours.CurrentRow.Selected)
                 {
                     toutInvisible();
@@ -244,15 +262,18 @@ namespace concourCanin
             string leCP = textBoxCP.Text;
             bool leCPvalide = testCP(leCP);
 
+            // vérifie si les textbox sont vide
             if (textBoxVille.Text == "" || textBoxCP.Text == "" || textBoxSalle.Text == ""
                || textBoxAdresse.Text == "")
             {
                 MessageBox.Show("une ou plusieurs case ne sont pas remplis ! ");
             }
+            // vérifie que le code postal soit valide
             else if (leCPvalide == false)
             {
                 MessageBox.Show("le code postal n'est pas valide (deux chiffre) ! ");
             }
+            // modifie le concour 
             else
             {
                 string leConcours = textBoxCode.Text;
