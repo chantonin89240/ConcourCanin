@@ -110,7 +110,32 @@ namespace concourCanin
             pARTICIPEBindingSource.DataSource = req.ToList();
             dgvNotation.DataSource = pARTICIPEBindingSource;
         }
-        
+
+        // fonction qui verifie la validiter de la note
+        private bool testValideNote(string laNote)
+        {
+            bool resultat = false;
+            var MyRegex = new Regex("^[0-9]*$");
+
+            if (MyRegex.IsMatch(laNote))
+            {
+                int note = int.Parse(laNote);
+                if (note <= 100)
+                {
+                    resultat = true;
+                }
+                else
+                {
+                    resultat = false;
+                }
+            }
+            else
+            {
+                
+            }
+            return resultat;
+        }
+
         // fonction au chargement de la page
         private void FormNotation_Load(object sender, EventArgs e)
         {
@@ -167,7 +192,6 @@ namespace concourCanin
             string leConcour = comboBoxConcour.Text;
             string note = textBoxNote.Text;
 
-
             string pro = comboBoxProprietaire.Text;
             string[] leNomPro = pro.Split(':');
             string lePropri = leNomPro[1].Trim();
@@ -175,6 +199,8 @@ namespace concourCanin
             string chien = comboBoxChien.Text;
             string[] leNomChien = chien.Split(':');
             string leCodeChien = leNomChien[1].Trim();
+
+            bool laNoteValide = testValideNote(note);
 
             var notationChien = monModele.PARTICIPEs.Find(lePropri, leCodeChien, leConcour);
 
@@ -197,6 +223,10 @@ namespace concourCanin
             else if (note == "")
             {
                 MessageBox.Show("il faut rentrer une note ! ");
+            }
+            else if (laNoteValide == false)
+            {
+                MessageBox.Show("la note n'est pas valide, elle ne doit pas dépacer 100 ou comporter de caractère ! ");
             }
             // vérifie que la notation n'existe pas
             else if (notationChien != null)
@@ -332,7 +362,7 @@ namespace concourCanin
             // vérifie si la note ne comprend que des chiffres
             else if (laNoteValide == false)
             {
-                MessageBox.Show("la note n'est pas valide il ne faut que des chiffre ! ");
+                MessageBox.Show("la note n'est pas valide, elle ne doit pas dépacer 100 ou comporter de caractère ! ");
             }
             // modifie la notation 
             else
@@ -355,23 +385,6 @@ namespace concourCanin
                 groupInvisible();
                 chargerDgv(leConcour);
             }
-        }
-
-        // fonction qui verifie la validiter de la note
-        private bool testValideNote(string laNote)
-        {
-            bool resultat = false;
-            var MyRegex = new Regex("^[0-9]*$");
-
-            if (MyRegex.IsMatch(laNote))
-            {
-                resultat = true;
-            }
-            else
-            {
-                    resultat = false;
-            }
-            return resultat;
         }
 
         // évènement au changement du combobox propriétaire

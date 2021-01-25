@@ -150,6 +150,21 @@ avertissement 6002: La table/vue 'CONCOURSCANIN.dbo.VUERACE' n'a pas de clé pri
     <Parameter Name="prenom" Type="char" Mode="In" />
     <Parameter Name="ville" Type="char" Mode="In" />
   </Function>
+  <Function Name="upadteChienBatard" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="codechien" Type="char" Mode="In" />
+    <Parameter Name="codeproprietaire" Type="char" Mode="In" />
+    <Parameter Name="ddnchien" Type="smalldatetime" Mode="In" />
+    <Parameter Name="nomchien" Type="char" Mode="In" />
+    <Parameter Name="caracteristique" Type="char" Mode="In" />
+  </Function>
+  <Function Name="upadteChienRace" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="codechien" Type="char" Mode="In" />
+    <Parameter Name="codeproprietaire" Type="char" Mode="In" />
+    <Parameter Name="ddnchien" Type="smalldatetime" Mode="In" />
+    <Parameter Name="nomchien" Type="char" Mode="In" />
+    <Parameter Name="race" Type="char" Mode="In" />
+    <Parameter Name="robe" Type="char" Mode="In" />
+  </Function>
   <EntityContainer Name="CONCOURSCANINModelStoreContainer">
     <EntitySet Name="BATARD" EntityType="Self.BATARD" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CHIEN" EntityType="Self.CHIEN" Schema="dbo" store:Type="Tables" />

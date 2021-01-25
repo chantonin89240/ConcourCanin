@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CONCOURSCANINModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="CONCOURSCANINModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="BATARD">
           <Key>
             <PropertyRef Name="codechien" />
@@ -155,6 +155,21 @@ avertissement 6002: La table/vue 'CONCOURSCANIN.dbo.VUERACE' n'a pas de clé pri
           <Parameter Name="prenom" Type="char" Mode="In" />
           <Parameter Name="ville" Type="char" Mode="In" />
         </Function>
+        <Function Name="upadteChienBatard" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="codechien" Type="char" Mode="In" />
+          <Parameter Name="codeproprietaire" Type="char" Mode="In" />
+          <Parameter Name="ddnchien" Type="smalldatetime" Mode="In" />
+          <Parameter Name="nomchien" Type="char" Mode="In" />
+          <Parameter Name="caracteristique" Type="char" Mode="In" />
+        </Function>
+        <Function Name="upadteChienRace" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="codechien" Type="char" Mode="In" />
+          <Parameter Name="codeproprietaire" Type="char" Mode="In" />
+          <Parameter Name="ddnchien" Type="smalldatetime" Mode="In" />
+          <Parameter Name="nomchien" Type="char" Mode="In" />
+          <Parameter Name="race" Type="char" Mode="In" />
+          <Parameter Name="robe" Type="char" Mode="In" />
+        </Function>
         <EntityContainer Name="CONCOURSCANINModelStoreContainer">
           <EntitySet Name="BATARD" EntityType="Self.BATARD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CHIEN" EntityType="Self.CHIEN" Schema="dbo" store:Type="Tables" />
@@ -194,8 +209,7 @@ avertissement 6002: La table/vue 'CONCOURSCANIN.dbo.VUERACE' n'a pas de clé pri
             <End Role="PARTICIPE" EntitySet="PARTICIPE" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CONCOURSCANINModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -358,6 +372,21 @@ avertissement 6002: La table/vue 'CONCOURSCANIN.dbo.VUERACE' n'a pas de clé pri
             <Parameter Name="prenom" Mode="In" Type="String" />
             <Parameter Name="ville" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="upadteChienRace">
+            <Parameter Name="codechien" Mode="In" Type="String" />
+            <Parameter Name="codeproprietaire" Mode="In" Type="String" />
+            <Parameter Name="ddnchien" Mode="In" Type="DateTime" />
+            <Parameter Name="nomchien" Mode="In" Type="String" />
+            <Parameter Name="race" Mode="In" Type="String" />
+            <Parameter Name="robe" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="upadteChienBatard">
+            <Parameter Name="codechien" Mode="In" Type="String" />
+            <Parameter Name="codeproprietaire" Mode="In" Type="String" />
+            <Parameter Name="ddnchien" Mode="In" Type="DateTime" />
+            <Parameter Name="nomchien" Mode="In" Type="String" />
+            <Parameter Name="caracteristique" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -451,6 +480,8 @@ avertissement 6002: La table/vue 'CONCOURSCANIN.dbo.VUERACE' n'a pas de clé pri
           <FunctionImportMapping FunctionImportName="pCONCOURS_INSERT" FunctionName="CONCOURSCANINModel.Store.pCONCOURS_INSERT" />
           <FunctionImportMapping FunctionImportName="pPARTICIPE_INSERT" FunctionName="CONCOURSCANINModel.Store.pPARTICIPE_INSERT" />
           <FunctionImportMapping FunctionImportName="pPROPRIETAIRE_INSERT" FunctionName="CONCOURSCANINModel.Store.pPROPRIETAIRE_INSERT" />
+          <FunctionImportMapping FunctionImportName="upadteChienRace" FunctionName="CONCOURSCANINModel.Store.upadteChienRace" />
+          <FunctionImportMapping FunctionImportName="upadteChienBatard" FunctionName="CONCOURSCANINModel.Store.upadteChienBatard" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

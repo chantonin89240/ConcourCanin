@@ -117,5 +117,59 @@ namespace concourCanin
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("pPROPRIETAIRE_INSERT", codepropParameter, adresseParameter, cpParameter, nomParameter, prenomParameter, villeParameter);
         }
+    
+        public virtual int upadteChienRace(string codechien, string codeproprietaire, Nullable<System.DateTime> ddnchien, string nomchien, string race, string robe)
+        {
+            var codechienParameter = codechien != null ?
+                new ObjectParameter("codechien", codechien) :
+                new ObjectParameter("codechien", typeof(string));
+    
+            var codeproprietaireParameter = codeproprietaire != null ?
+                new ObjectParameter("codeproprietaire", codeproprietaire) :
+                new ObjectParameter("codeproprietaire", typeof(string));
+    
+            var ddnchienParameter = ddnchien.HasValue ?
+                new ObjectParameter("ddnchien", ddnchien) :
+                new ObjectParameter("ddnchien", typeof(System.DateTime));
+    
+            var nomchienParameter = nomchien != null ?
+                new ObjectParameter("nomchien", nomchien) :
+                new ObjectParameter("nomchien", typeof(string));
+    
+            var raceParameter = race != null ?
+                new ObjectParameter("race", race) :
+                new ObjectParameter("race", typeof(string));
+    
+            var robeParameter = robe != null ?
+                new ObjectParameter("robe", robe) :
+                new ObjectParameter("robe", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("upadteChienRace", codechienParameter, codeproprietaireParameter, ddnchienParameter, nomchienParameter, raceParameter, robeParameter);
+        }
+    
+        public virtual int upadteChienBatard(string codechien, string codeproprietaire, Nullable<System.DateTime> ddnchien, string nomchien, string caracteristique)
+        {
+            var codechienParameter = codechien != null ?
+                new ObjectParameter("codechien", codechien) :
+                new ObjectParameter("codechien", typeof(string));
+    
+            var codeproprietaireParameter = codeproprietaire != null ?
+                new ObjectParameter("codeproprietaire", codeproprietaire) :
+                new ObjectParameter("codeproprietaire", typeof(string));
+    
+            var ddnchienParameter = ddnchien.HasValue ?
+                new ObjectParameter("ddnchien", ddnchien) :
+                new ObjectParameter("ddnchien", typeof(System.DateTime));
+    
+            var nomchienParameter = nomchien != null ?
+                new ObjectParameter("nomchien", nomchien) :
+                new ObjectParameter("nomchien", typeof(string));
+    
+            var caracteristiqueParameter = caracteristique != null ?
+                new ObjectParameter("caracteristique", caracteristique) :
+                new ObjectParameter("caracteristique", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("upadteChienBatard", codechienParameter, codeproprietaireParameter, ddnchienParameter, nomchienParameter, caracteristiqueParameter);
+        }
     }
 }

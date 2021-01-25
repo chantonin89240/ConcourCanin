@@ -159,5 +159,20 @@
       <Parameter Name="prenom" Mode="In" Type="String" />
       <Parameter Name="ville" Mode="In" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="upadteChienRace">
+      <Parameter Name="codechien" Mode="In" Type="String" />
+      <Parameter Name="codeproprietaire" Mode="In" Type="String" />
+      <Parameter Name="ddnchien" Mode="In" Type="DateTime" />
+      <Parameter Name="nomchien" Mode="In" Type="String" />
+      <Parameter Name="race" Mode="In" Type="String" />
+      <Parameter Name="robe" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="upadteChienBatard">
+      <Parameter Name="codechien" Mode="In" Type="String" />
+      <Parameter Name="codeproprietaire" Mode="In" Type="String" />
+      <Parameter Name="ddnchien" Mode="In" Type="DateTime" />
+      <Parameter Name="nomchien" Mode="In" Type="String" />
+      <Parameter Name="caracteristique" Mode="In" Type="String" />
+    </FunctionImport>
   </EntityContainer>
 </Schema>

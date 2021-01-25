@@ -87,5 +87,7 @@
     <FunctionImportMapping FunctionImportName="pCONCOURS_INSERT" FunctionName="CONCOURSCANINModel.Store.pCONCOURS_INSERT" />
     <FunctionImportMapping FunctionImportName="pPARTICIPE_INSERT" FunctionName="CONCOURSCANINModel.Store.pPARTICIPE_INSERT" />
     <FunctionImportMapping FunctionImportName="pPROPRIETAIRE_INSERT" FunctionName="CONCOURSCANINModel.Store.pPROPRIETAIRE_INSERT" />
+    <FunctionImportMapping FunctionImportName="upadteChienRace" FunctionName="CONCOURSCANINModel.Store.upadteChienRace" />
+    <FunctionImportMapping FunctionImportName="upadteChienBatard" FunctionName="CONCOURSCANINModel.Store.upadteChienBatard" />
   </EntityContainerMapping>
 </Mapping>

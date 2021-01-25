@@ -27,6 +27,7 @@ namespace concourCanin
         // fonction qui charge le dgv en fonction du type de chien demander
         private void chargerDgv(int nb)
         {
+            dgvChien.DataSource = null;
             // adapte la taille de toute les colonne en fill
             DataGridViewAutoSizeColumnMode size = DataGridViewAutoSizeColumnMode.Fill;
 
@@ -34,8 +35,8 @@ namespace concourCanin
             if (nb == 0)
             {
                 var req = from v in monModele.CHIENs orderby v.codeproprietaire select v;
-                cHIENBindingSource.DataSource = req.ToList();
-                dgvChien.DataSource = cHIENBindingSource;
+                //cHIENBindingSource.DataSource = req.ToList();
+                dgvChien.DataSource = req.ToList();
 
                 dgvChien.Columns[0].HeaderText = "Code du Chien";
                 dgvChien.Columns[1].HeaderText = "Code du Propriétaire";
@@ -329,9 +330,10 @@ namespace concourCanin
             {
                 string leCodeChien = dgvChien.CurrentRow.Cells[0].Value.ToString();
                 string leCodeProprietaire = dgvChien.CurrentRow.Cells[1].Value.ToString();
+                string leNom = dgvChien.CurrentRow.Cells[3].Value.ToString();
 
                 // messagebox pour valider par l'utilisateur la suppression du chien
-                if (MessageBox.Show("êtes vous sur de vouloir supprimer le chien numéro : " + leCodeChien.Trim() + " ?", "advertissement ", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                if (MessageBox.Show("êtes vous sur de vouloir supprimer le chien " + leNom.Trim() + "\nnuméro : " + leCodeChien.Trim() + " ?", "advertissement ", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
                     // récupére le chien pour le supprimer
                     var chien = monModele.CHIENs.Find(leCodeChien, leCodeProprietaire);
@@ -474,32 +476,24 @@ namespace concourCanin
             // modifie le chien 
             else
             {
-                string codePropri = leNomPro[1];
+                string codePropri = leNomPro[1].Trim();
                 DateTime ddn = DateTime.Parse(dateTimePicker1.Text);
                 string nom = textBoxNom.Text;
 
                 // modifie le chien si il est de race
                 if (nbType == 1)
                 {
-                    var chien = monModele.VUERACEs.Find(leCodeChien, codePropri);
+                    monModele.upadteChienRace(leCodeChien, codePropri, ddn, nom, textBoxRace.Text, textBoxRobe.Text);
+                    monModele = null;
+                    monModele = new CONCOURSCANINEntities();
 
-                    chien.ddnchien = ddn;
-                    chien.nomchien = nom;
-                    chien.race = textBoxRace.Text;
-                    chien.robe = textBoxRobe.Text;
-
-                    monModele.SaveChanges();
                 }
                 // sinon modifie le chien si il est batard
                 else if (nbType == 2)
                 {
-                    var chien = monModele.VUEBATARDs.Find(leCodeChien, codePropri);
-
-                    chien.ddnchien = ddn;
-                    chien.nomchien = nom;
-                    chien.caracteristiques = textBoxCaracteristique.Text;
-
-                    monModele.SaveChanges();
+                    monModele.upadteChienBatard(leCodeChien, codePropri, ddn, nom, textBoxCaracteristique.Text);
+                    monModele = null;
+                    monModele = new CONCOURSCANINEntities();
                 }
                 else
                 {

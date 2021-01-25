@@ -90,7 +90,7 @@ namespace concourCanin
             this.buttonAfficherTout.Name = "buttonAfficherTout";
             this.buttonAfficherTout.Size = new System.Drawing.Size(181, 39);
             this.buttonAfficherTout.TabIndex = 2;
-            this.buttonAfficherTout.Text = "Afficher Tout les Chiens";
+            this.buttonAfficherTout.Text = "Afficher Tous les Chiens";
             this.buttonAfficherTout.UseVisualStyleBackColor = true;
             this.buttonAfficherTout.Click += new System.EventHandler(this.buttonAfficherTout_Click);
             // 
